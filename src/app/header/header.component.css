@@ -1,0 +1,28 @@
+* {
+  margin: 0px;
+  padding: 0px;
+}
+
+#header {
+  background-color: rgb(211, 225, 240);
+  color: white;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+ul li{
+  display: inline-block;
+  color: white;
+  padding: 10px;
+}
+
+ a {
+  text-decoration: none;
+}
+
+li:hover {
+  background-color: slateblue;
+  border-radius: 10px;
+}
+

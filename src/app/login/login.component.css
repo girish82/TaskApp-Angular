@@ -1,0 +1,12 @@
+#container {
+  vertical-align: middle;
+}
+#login {
+  margin: 10px;
+  height: 70vh;
+}
+
+form div {
+  justify-content: center;
+  text-align: right;
+}

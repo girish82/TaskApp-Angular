@@ -1,0 +1,34 @@
+<div class="container text-center mt-5">
+  <form (ngSubmit)="onSubmit(form)" #form="ngForm">
+    <div class="form-group row">
+      <label for="description" class="col-form-label col-md-2">Task Name</label>
+      <div class="col-md-6">
+        <input type="text" class="form-control" id="description" name="description" ngModel>
+      </div>
+      <button type="submit" class="btn btn-primary col-md-1">Add Task</button>
+    </div>
+    </form>
+    <div class="row mt-5">
+        <div class="col-md-10">
+           <table class="table table-hover">
+             <thead>
+                <th>Sl No.</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th></th>
+                <th></th>
+            </thead>
+            <tbody>
+                <tr *ngFor="let task of tasks;let i=index">
+                  <td>{{i+1}}</td>
+                  <td>{{task.description}}</td>
+                  <td>{{task.completed}}</td>
+                  <td><button type="button" class="btn btn-link text-success" (click)="editTask()">Edit</button></td>
+                  <td><button type="button" class="btn btn-link text-danger" (click)="deleteTask(task._id)">Delete</button></td>
+                  <td hidden>{{task._id}}</td>
+                </tr>
+            </tbody>
+           </table>
+        </div>
+    </div>
+</div>
