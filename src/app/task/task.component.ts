@@ -10,17 +10,26 @@ import { NgForm } from '@angular/forms';
 export class TaskComponent implements OnInit {
 
   tasks = [];
+  selectedFile: File = null;
 
   constructor(private taskService: TaskService) { }
 
   ngOnInit() {
     this.getTask();
+    this.getAvatar()
   }
 
   getTask() {
     this.taskService.getTasks()
     .subscribe((res: any) => {
         this.tasks = res;
+    });
+  }
+
+  getAvatar() {
+    this.taskService.getAvatar()
+    .subscribe((res: any) => {
+        console.log(res);
     });
   }
 
@@ -32,7 +41,7 @@ export class TaskComponent implements OnInit {
   }
 
   deleteTask(id) {
-    console.log(id)
+   // console.log(id)
     this.taskService.deleteTasks(id)
     .subscribe((res) => {
       this.getTask();
@@ -41,5 +50,23 @@ export class TaskComponent implements OnInit {
 
   editTask() {
 
+  }
+
+  search(status) {
+    this.taskService.searchTasks(status)
+    .subscribe((res: any) => {
+        this.tasks = res;
+    },error=>console.log(error));
+  }
+
+  onFileselect(event) {
+    this.selectedFile =  event.target.files[0] as File;
+    // console.log(this.selectedFile);
+    if (this.selectedFile) {
+      const fd = new FormData();
+      fd.append('avatar', this.selectedFile, this.selectedFile.name);
+      this.taskService.uploadImage(fd)
+        .subscribe((out) => console.log(out));
+    }
   }
 }
