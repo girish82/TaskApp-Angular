@@ -11,25 +11,40 @@ export class TaskComponent implements OnInit {
 
   tasks = [];
   selectedFile: File = null;
+  imageUrl;
+  user;
+  skip = 0;
 
   constructor(private taskService: TaskService) { }
 
   ngOnInit() {
     this.getTask();
-    this.getAvatar()
+    this.getAvatar();
   }
 
   getTask() {
     this.taskService.getTasks()
     .subscribe((res: any) => {
-        this.tasks = res;
+      this.tasks = res;
     });
   }
 
   getAvatar() {
-    this.taskService.getAvatar()
+    this.taskService.getUserId()
     .subscribe((res: any) => {
-        console.log(res);
+        this.imageUrl = 'https://pgirish-task-app.herokuapp.com/users/' + res._id + '/avatar';
+        this.user = {
+          name : res.name,
+          age : res.age
+        };
+    });
+  }
+
+  getUserId() {
+    this.taskService.getUserId()
+    .subscribe((res: any) => {
+        this.imageUrl = 'https://pgirish-task-app.herokuapp.com/users/' + res._id + '/avatar';
+        console.log(this.imageUrl);
     });
   }
 
@@ -41,7 +56,6 @@ export class TaskComponent implements OnInit {
   }
 
   deleteTask(id) {
-   // console.log(id)
     this.taskService.deleteTasks(id)
     .subscribe((res) => {
       this.getTask();
@@ -55,18 +69,33 @@ export class TaskComponent implements OnInit {
   search(status) {
     this.taskService.searchTasks(status)
     .subscribe((res: any) => {
-        this.tasks = res;
-    },error=>console.log(error));
+         this.tasks = res;
+    }, error => console.log(error));
   }
 
   onFileselect(event) {
     this.selectedFile =  event.target.files[0] as File;
-    // console.log(this.selectedFile);
     if (this.selectedFile) {
       const fd = new FormData();
       fd.append('avatar', this.selectedFile, this.selectedFile.name);
       this.taskService.uploadImage(fd)
         .subscribe((out) => console.log(out));
     }
+  }
+
+  getPage(num) {
+    if (num === 'add') {
+      this.skip = +this.skip + 1;
+
+    } else  if (num === 'min') {
+      this.skip = +this.skip + 1;
+    } else {
+      this.skip = num;
+    }
+    console.log(this.skip)
+    this.taskService.getPage(this.skip)
+    .subscribe((res: any) => {
+         this.tasks = res;
+    }, error => console.log(error));
   }
 }

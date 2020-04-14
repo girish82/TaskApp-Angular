@@ -1,4 +1,5 @@
-<div class="container text-center mt-5">
+<div class="container text-center mt-5 row">
+  <div class="col-md-10">
   <form (ngSubmit)="onSubmit(form)" #form="ngForm">
     <div class="form-group row">
       <label for="description" class="col-form-label col-md-2">Task Name</label>
@@ -40,9 +41,31 @@
            </table>
         </div>
     </div>
-    <div class="form-group row">
-      <label for="myfile" class="col-md-2 col-form-label">Select Profile Pic.</label>
-      <div class="col-md-3">
-        <input type="file" id="myfile" name="myfile" (change)=onFileselect($event)>
+  </div>
+  <div class="col-md-2">
+      <div>
+        <img src="{{imageUrl}}" name="image">
     </div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">{{user.name}}</li>
+      <li class="list-group-item">Age - {{user.age}}</li>
+    </ul>
+    <div>
+      <label for="myfile" class="col-form-label text-primary">Profile Pic.</label>
+      <input type="file" id="myfile" name="myfile" (change)=onFileselect($event)>
+    </div>
+  </div>
+  <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+      <li class="page-item disabled">
+        <a class="page-link" (click)="getPage('min')" tabindex="-1">Previous</a>
+      </li>
+      <li class="page-item"><a class="page-link" (click)="getPage('0')">1</a></li>
+      <li class="page-item"><a class="page-link" (click)="getPage('1')">2</a></li>
+      <li class="page-item"><a class="page-link" (click)="getPage('2')">3</a></li>
+      <li class="page-item">
+        <a class="page-link" (click)="getPage('add')">Next</a>
+      </li>
+    </ul>
+  </nav>
 </div>

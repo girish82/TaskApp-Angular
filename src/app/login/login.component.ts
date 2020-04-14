@@ -21,7 +21,6 @@ export class LoginComponent implements OnInit {
   regLabel = 'Register';
   success = true;
   selectedFile: File = null;
-  // @Output() logLabel = new EventEmitter<string>();
 
   constructor(private taskService: TaskService, private router: Router) { }
 
@@ -31,7 +30,6 @@ export class LoginComponent implements OnInit {
 
   onSubmit(data: NgForm) {
     const success = false;
-    // console.log(data.value);
     this.taskService.userLogin(data.value, this.signInLabel)
      .subscribe((res: any) => {
         if (res.token) {
@@ -39,7 +37,6 @@ export class LoginComponent implements OnInit {
           this.taskService.getUser()
             .subscribe((user: any) => {
               this.success = true;
-              console.log(user);
               if (this.selectedFile) {
                 const fd = new FormData();
                 fd.append('avatar', this.selectedFile, this.selectedFile.name);
@@ -47,7 +44,6 @@ export class LoginComponent implements OnInit {
                   .subscribe((out) => console.log(out));
               }
               this.router.navigate(['/task']);
-             // this.logLabel.emit('logout');
             },
             (error) => console.log(error));
 
@@ -55,10 +51,6 @@ export class LoginComponent implements OnInit {
     }, (error) => {
       this.success = false;
     });
-
-
-
-    // console.log(this.taskService.User);
   }
 
   onFileselect(event) {
