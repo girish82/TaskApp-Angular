@@ -8,6 +8,9 @@ import { HomeComponent } from './home/home.component';
 import { TaskComponent } from './task/task.component';
 import { LoginComponent } from './login/login.component';
 import { HttpClientModule } from '@angular/common/http';
+import { AlertComponent } from './alert/alert.component';
+
+
 
 @NgModule({
   declarations: [
@@ -15,7 +18,8 @@ import { HttpClientModule } from '@angular/common/http';
     HeaderComponent,
     HomeComponent,
     TaskComponent,
-    LoginComponent
+    LoginComponent,
+    AlertComponent
   ],
   imports: [
     BrowserModule,

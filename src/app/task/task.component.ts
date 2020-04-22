@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { TaskService } from '../services/task.service';
 import { NgForm } from '@angular/forms';
+
 
 @Component({
   selector: 'app-task',
@@ -12,13 +13,25 @@ export class TaskComponent implements OnInit {
   tasks = [];
   selectedFile: File = null;
   imageUrl;
-  user;
+  user: {name: string, age: number} = {name : '', age : 0};
   skip = 0;
+  status = 0;
+  edit = 0;
+  addLabel = 'Add Tasks';
+  alertMsg = '';
+
+  // @ViewChild('description', {static: false}) description: ElementRef;
+  // @ViewChild('completed', {static: false}) state: ElementRef;
+  desc = '';
+  state = '';
+
+
 
   constructor(private taskService: TaskService) { }
 
   ngOnInit() {
-    this.getTask();
+    // this.getTask();
+    this.getPage(0);
     this.getAvatar();
   }
 
@@ -49,25 +62,51 @@ export class TaskComponent implements OnInit {
   }
 
   onSubmit(data: NgForm) {
-    this.taskService.AddTasks(data.value)
+    if (this.edit !== 0 ) {
+      this.taskService.editTasks(this.edit, data.value)
       .subscribe((res) => {
-        this.getTask();
+        // this.getTask();
+        this.getPage(0);
+        this.edit = 0;
+        this.addLabel = 'Add Tasks';
+        this.alertMsg = 'Task Updated Successfully !!';
       });
+    } else {
+      this.taskService.AddTasks(data.value)
+        .subscribe((res) => {
+          // this.getTask();
+          this.getPage(0);
+          this.alertMsg = 'Task Added Successfully !!';
+        });
+    }
+    this.state = '';
+    this.desc = '';
+    data.reset();
+
   }
 
   deleteTask(id) {
     this.taskService.deleteTasks(id)
     .subscribe((res) => {
-      this.getTask();
+      // this.getTask();
+      this.getPage(0);
     });
   }
 
-  editTask() {
-
+  editTask(id,data: NgForm) {
+    this.edit = id;
+    this.addLabel = 'Update Task';
+    this.taskService.getTasksById(id)
+    .subscribe((res: any) => {
+      this.desc = res.description;
+      this.state = res.completed;
+    });
+    // console.log(data.value)
   }
 
   search(status) {
-    this.taskService.searchTasks(status)
+    this.status = status;
+    this.taskService.searchTasks(status, 0)
     .subscribe((res: any) => {
          this.tasks = res;
     }, error => console.log(error));
@@ -79,23 +118,32 @@ export class TaskComponent implements OnInit {
       const fd = new FormData();
       fd.append('avatar', this.selectedFile, this.selectedFile.name);
       this.taskService.uploadImage(fd)
-        .subscribe((out) => console.log(out));
+        .subscribe((out) => this.getAvatar());
     }
   }
 
   getPage(num) {
     if (num === 'add') {
       this.skip = +this.skip + 1;
-
     } else  if (num === 'min') {
-      this.skip = +this.skip + 1;
+      this.skip = +this.skip === 0 ? 0 : +this.skip - 1;
     } else {
       this.skip = num;
     }
     console.log(this.skip)
-    this.taskService.getPage(this.skip)
+    // this.taskService.getPage(this.skip)
+    // .subscribe((res: any) => {
+    //      this.tasks = res;
+    // }, error => console.log(error));
+    console.log(this.status)
+    this.taskService.searchTasks(this.status, this.skip)
     .subscribe((res: any) => {
          this.tasks = res;
     }, error => console.log(error));
   }
+
+  onHandleError() {
+    this.alertMsg = '';
+  }
+
 }

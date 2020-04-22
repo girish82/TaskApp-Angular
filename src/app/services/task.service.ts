@@ -58,6 +58,18 @@ export class TaskService {
     });
   }
 
+  getTasksById(id) {
+    const token = window.localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + token,
+    });
+    return this.http.get('https://pgirish-task-app.herokuapp.com/tasks/' + id, {
+      headers,
+    });
+  }
+
+
   getAvatar() {
     const token = window.localStorage.getItem('token');
     const headers = new HttpHeaders({
@@ -94,24 +106,37 @@ export class TaskService {
     );
   }
 
-  searchTasks(srch) {
-    console.log(srch);
+  editTasks(id, data) {
+    const token = window.localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + token,
+    });
+    return this.http.patch(
+      'https://pgirish-task-app.herokuapp.com/tasks/' + id, data,
+      { headers }
+    );
+  }
+
+  searchTasks(srch, num) {
     const token = window.localStorage.getItem('token');
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + token,
     });
 
+    let params = new HttpParams();
+    params = params.append('limit', '5');
+    params = params.append('skip', String(+num * 5));
+
     if (srch === '2') {
-      let params = new HttpParams();
-      params = params.set('completed', 'true');
+      params = params.append('completed', 'true');
       return this.http.get('https://pgirish-task-app.herokuapp.com/tasks', {
         headers,
         params,
       });
     } else if (srch === '3') {
-      let params = new HttpParams();
-      params = params.set('completed', 'false');
+      params = params.append('completed', 'false');
       return this.http.get('https://pgirish-task-app.herokuapp.com/tasks', {
         headers,
         params,
@@ -119,6 +144,7 @@ export class TaskService {
     } else {
       return this.http.get('https://pgirish-task-app.herokuapp.com/tasks', {
         headers,
+        params
       });
     }
   }
@@ -143,7 +169,7 @@ export class TaskService {
     });
 
     let params = new HttpParams();
-    params = params.append('limit', '3');
+    params = params.append('limit', '5');
     params = params.append('skip', num);
     return this.http.get('https://pgirish-task-app.herokuapp.com/tasks', {headers, params});
 }

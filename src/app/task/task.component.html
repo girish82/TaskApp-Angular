@@ -1,16 +1,28 @@
-<div class="container text-center mt-5 row">
-  <div class="col-md-10">
+
+<div class="container">
+  <div class="row m-5" style="height: 60vh">
+  <div class="col-md-10 p-4">
   <form (ngSubmit)="onSubmit(form)" #form="ngForm">
     <div class="form-group row">
       <label for="description" class="col-form-label col-md-2">Task Name</label>
       <div class="col-md-6">
-        <input type="text" class="form-control" id="description" name="description" ngModel>
+        <input type="text" class="form-control" id="description" name="description" ngModel #description="ngModel" [ngModel]="desc" maxlength="50">
       </div>
-      <button type="submit" class="btn btn-primary col-md-1 btn-sm">Add Task</button>
+      <button type="submit" class="btn btn-primary col-md-2 btn-sm">{{addLabel}}</button>
     </div>
+    <div class=" form-group row" *ngIf="edit">
+      <label for="description" class="col-form-label col-md-2">Status</label>
+      <div class="col-md-6">
+      <select class="custom-select" (change)="search($event.target.value)" ngModel name="completed" #completed="ngModel" [ngModel]="state">
+        <option value="true">Complete</option>
+        <option value="false">Pending</option>
+      </select>
+      </div>
+    </div>
+    <app-alert [message]="alertMsg" *ngIf="alertMsg" (close)="onHandleError()"></app-alert>
     </form>
 
-    <div class="row mt-5">
+    <div class="row mt-2">
         <div class="col-md-10 text-left mb-2">
           <select class="custom-select" (change)="search($event.target.value)">
             <option selected>Filter Tasks based on status</option>
@@ -20,7 +32,7 @@
           </select>
         </div>
         <div class="col-md-10">
-           <table class="table table-hover">
+           <table class="table table-hover table-condensed">
              <thead>
                 <th>Sl No.</th>
                 <th>Description</th>
@@ -32,8 +44,8 @@
                 <tr *ngFor="let task of tasks;let i=index">
                   <td>{{i+1}}</td>
                   <td>{{task.description}}</td>
-                  <td>{{task.completed}}</td>
-                  <td><button type="button" class="btn btn-link text-success" (click)="editTask()">Edit</button></td>
+                  <td>{{task.completed === false ? 'Pending' : 'Complete'}}</td>
+                  <td><button type="button" class="btn btn-link text-success" (click)="editTask(task._id)">Edit</button></td>
                   <td><button type="button" class="btn btn-link text-danger" (click)="deleteTask(task._id)">Delete</button></td>
                   <td hidden>{{task._id}}</td>
                 </tr>
@@ -42,9 +54,9 @@
         </div>
     </div>
   </div>
-  <div class="col-md-2">
+  <div class="col-md-2 p-1">
       <div>
-        <img src="{{imageUrl}}" name="image">
+        <img src="{{imageUrl}}" alt="image">
     </div>
     <ul class="list-group list-group-flush">
       <li class="list-group-item">{{user.name}}</li>
@@ -55,17 +67,21 @@
       <input type="file" id="myfile" name="myfile" (change)=onFileselect($event)>
     </div>
   </div>
-  <nav aria-label="Page navigation example">
-    <ul class="pagination justify-content-center">
-      <li class="page-item disabled">
-        <a class="page-link" (click)="getPage('min')" tabindex="-1">Previous</a>
-      </li>
-      <li class="page-item"><a class="page-link" (click)="getPage('0')">1</a></li>
-      <li class="page-item"><a class="page-link" (click)="getPage('1')">2</a></li>
-      <li class="page-item"><a class="page-link" (click)="getPage('2')">3</a></li>
-      <li class="page-item">
-        <a class="page-link" (click)="getPage('add')">Next</a>
-      </li>
-    </ul>
-  </nav>
 </div>
+<nav aria-label="Page navigation example" class="p-2">
+  <ul class="pagination justify-content-center">
+    <li class="page-item">
+      <a class="page-link" (click)="getPage('min')">Previous</a>
+    </li>
+    <li class="page-item"><a class="page-link" (click)="getPage('0')">1</a></li>
+    <li class="page-item"><a class="page-link" (click)="getPage('1')">2</a></li>
+    <li class="page-item"><a class="page-link" (click)="getPage('2')">3</a></li>
+    <li class="page-item">
+      <a class="page-link" (click)="getPage('add')">Next</a>
+    </li>
+  </ul>
+</nav>
+</div>
+
+
+
