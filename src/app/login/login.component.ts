@@ -43,6 +43,7 @@ export class LoginComponent implements OnInit {
                 this.taskService.uploadImage(fd)
                   .subscribe((out) => console.log(out));
               }
+              this.taskService.isUserLoggedIn.next(true);
               this.router.navigate(['/task']);
             },
             (error) => console.log(error));

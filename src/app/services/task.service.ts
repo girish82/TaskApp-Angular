@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TaskService {
   User: { id: string; age: number; email: string; name: string };
+  public isUserLoggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor(private http: HttpClient) {}
 
@@ -26,104 +28,119 @@ export class TaskService {
   }
 
   getUser() {
-    const token = window.localStorage.getItem('token');
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + token,
-    });
-    return this.http.get('https://pgirish-task-app.herokuapp.com/users/me', {
-      headers,
-    });
+    // const token = window.localStorage.getItem('token');
+    // const headers = new HttpHeaders({
+    //   'Content-Type': 'application/json',
+    //   Authorization: 'Bearer ' + token,
+    // });
+    // return this.http.get('https://pgirish-task-app.herokuapp.com/users/me', {
+    //   headers,
+    // });
+    return this.http.get('https://pgirish-task-app.herokuapp.com/users/me');
   }
 
   getUserId() {
-    const token = window.localStorage.getItem('token');
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + token,
-    });
-    return this.http.get('https://pgirish-task-app.herokuapp.com/users/me', {
-      headers,
-    });
+    // const token = window.localStorage.getItem('token');
+    // const headers = new HttpHeaders({
+    //   'Content-Type': 'application/json',
+    //   Authorization: 'Bearer ' + token,
+    // });
+    // return this.http.get('https://pgirish-task-app.herokuapp.com/users/me', {
+    //   headers,
+    // });
+    return this.http.get('https://pgirish-task-app.herokuapp.com/users/me');
   }
 
   getTasks() {
-    const token = window.localStorage.getItem('token');
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + token,
-    });
-    return this.http.get('https://pgirish-task-app.herokuapp.com/tasks', {
-      headers,
-    });
+    // const token = window.localStorage.getItem('token');
+    // const headers = new HttpHeaders({
+    //   'Content-Type': 'application/json',
+    //   Authorization: 'Bearer ' + token,
+    // });
+    // return this.http.get('https://pgirish-task-app.herokuapp.com/tasks', {
+    //   headers,
+    // });
+    return this.http.get('https://pgirish-task-app.herokuapp.com/tasks');
   }
 
   getTasksById(id) {
-    const token = window.localStorage.getItem('token');
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + token,
-    });
-    return this.http.get('https://pgirish-task-app.herokuapp.com/tasks/' + id, {
-      headers,
-    });
+    // const token = window.localStorage.getItem('token');
+    // const headers = new HttpHeaders({
+    //   'Content-Type': 'application/json',
+    //   Authorization: 'Bearer ' + token,
+    // });
+    // return this.http.get('https://pgirish-task-app.herokuapp.com/tasks/' + id, {
+    //   headers,
+    // });
+    return this.http.get('https://pgirish-task-app.herokuapp.com/tasks/' + id);
   }
 
 
   getAvatar() {
-    const token = window.localStorage.getItem('token');
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + token,
-    });
-    return this.http.get('https://pgirish-task-app.herokuapp.com/users/me', {
-      headers,
-    });
+    // const token = window.localStorage.getItem('token');
+    // const headers = new HttpHeaders({
+    //   'Content-Type': 'application/json',
+    //   Authorization: 'Bearer ' + token,
+    // });
+    // return this.http.get('https://pgirish-task-app.herokuapp.com/users/me', {
+    //   headers,
+    // });
+    return this.http.get('https://pgirish-task-app.herokuapp.com/users/me');
   }
 
   AddTasks(data) {
-    const token = window.localStorage.getItem('token');
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + token,
-    });
+    // const token = window.localStorage.getItem('token');
+    // const headers = new HttpHeaders({
+    //   'Content-Type': 'application/json',
+    //   Authorization: 'Bearer ' + token,
+    // });
+    // return this.http.post(
+    //   'https://pgirish-task-app.herokuapp.com/tasks',
+    //   data,
+    //   { headers }
+    // );
     return this.http.post(
       'https://pgirish-task-app.herokuapp.com/tasks',
-      data,
-      { headers }
+      data
     );
   }
 
   deleteTasks(id) {
-    const token = window.localStorage.getItem('token');
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + token,
-    });
+    // const token = window.localStorage.getItem('token');
+    // const headers = new HttpHeaders({
+    //   'Content-Type': 'application/json',
+    //   Authorization: 'Bearer ' + token,
+    // });
+    // return this.http.delete(
+    //   'https://pgirish-task-app.herokuapp.com/tasks/' + id,
+    //   { headers }
+    // );
     return this.http.delete(
-      'https://pgirish-task-app.herokuapp.com/tasks/' + id,
-      { headers }
+      'https://pgirish-task-app.herokuapp.com/tasks/' + id
     );
   }
 
   editTasks(id, data) {
-    const token = window.localStorage.getItem('token');
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + token,
-    });
+    // const token = window.localStorage.getItem('token');
+    // const headers = new HttpHeaders({
+    //   'Content-Type': 'application/json',
+    //   Authorization: 'Bearer ' + token,
+    // });
+    // return this.http.patch(
+    //   'https://pgirish-task-app.herokuapp.com/tasks/' + id, data,
+    //   { headers }
+    // );
     return this.http.patch(
-      'https://pgirish-task-app.herokuapp.com/tasks/' + id, data,
-      { headers }
+      'https://pgirish-task-app.herokuapp.com/tasks/' + id, data
     );
   }
 
   searchTasks(srch, num) {
-    const token = window.localStorage.getItem('token');
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + token,
-    });
+    // const token = window.localStorage.getItem('token');
+    // const headers = new HttpHeaders({
+    //   'Content-Type': 'application/json',
+    //   Authorization: 'Bearer ' + token,
+    // });
 
     let params = new HttpParams();
     params = params.append('limit', '5');
@@ -131,47 +148,61 @@ export class TaskService {
 
     if (srch === '2') {
       params = params.append('completed', 'true');
+      // return this.http.get('https://pgirish-task-app.herokuapp.com/tasks', {
+      //   headers,
+      //   params,
+      // });
       return this.http.get('https://pgirish-task-app.herokuapp.com/tasks', {
-        headers,
-        params,
+        params
       });
     } else if (srch === '3') {
       params = params.append('completed', 'false');
+      // return this.http.get('https://pgirish-task-app.herokuapp.com/tasks', {
+      //   headers,
+      //   params,
+      // });
       return this.http.get('https://pgirish-task-app.herokuapp.com/tasks', {
-        headers,
-        params,
+       params,
       });
     } else {
+      // return this.http.get('https://pgirish-task-app.herokuapp.com/tasks', {
+      //   headers,
+      //   params
+      // });
       return this.http.get('https://pgirish-task-app.herokuapp.com/tasks', {
-        headers,
         params
       });
     }
   }
 
   uploadImage(fd) {
-    const token = window.localStorage.getItem('token');
-    const headers = new HttpHeaders({
-      Authorization: 'Bearer ' + token,
-    });
+    // const token = window.localStorage.getItem('token');
+    // const headers = new HttpHeaders({
+    //   Authorization: 'Bearer ' + token,
+    // });
+    // return this.http.post(
+    //   'https://pgirish-task-app.herokuapp.com/users/me/avatar',
+    //   fd,
+    //   { headers }
+    // );
     return this.http.post(
       'https://pgirish-task-app.herokuapp.com/users/me/avatar',
-      fd,
-      { headers }
+      fd
     );
   }
 
   getPage(num) {
-    const token = window.localStorage.getItem('token');
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + token,
-    });
+    // const token = window.localStorage.getItem('token');
+    // const headers = new HttpHeaders({
+    //   'Content-Type': 'application/json',
+    //   Authorization: 'Bearer ' + token,
+    // });
 
     let params = new HttpParams();
     params = params.append('limit', '5');
     params = params.append('skip', num);
-    return this.http.get('https://pgirish-task-app.herokuapp.com/tasks', {headers, params});
+    // return this.http.get('https://pgirish-task-app.herokuapp.com/tasks', {headers, params});
+    return this.http.get('https://pgirish-task-app.herokuapp.com/tasks', {params});
 }
 
 }

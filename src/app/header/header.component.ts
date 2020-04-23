@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { WrappedNodeExpr } from '@angular/compiler';
+import { Component, OnInit, Input } from '@angular/core';
+import { TaskService } from '../services/task.service';
 
 @Component({
   selector: 'app-header',
@@ -10,18 +10,22 @@ export class HeaderComponent implements OnInit {
 
   login = 'login';
 
-  constructor() { }
+  constructor(private taskService: TaskService) {
+        this.taskService.isUserLoggedIn.subscribe( value => {
+          this.login = value ? 'logout' : 'login';
+      });
+   }
 
-  ngOnInit() {
+ngOnInit() {
     this.checkLogin();
-  }
+}
 
-  checkLogin() {
+checkLogin() {
     const token = window.localStorage.getItem('token');
     this.login = token ? 'logout' : 'login';
   }
 
-  logout() {
+logout() {
     const token = window.localStorage.getItem('token');
     if (token) {
       window.localStorage.removeItem('token');
