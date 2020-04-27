@@ -32,7 +32,7 @@
           </select>
         </div>
         <div class="col-md-10">
-           <table class="table table-hover table-condensed">
+           <table class="table table-hover table-condensed table-bordered">
              <thead>
                 <th>Sl No.</th>
                 <th>Description</th>
@@ -41,8 +41,8 @@
                 <th></th>
             </thead>
             <tbody>
-                <tr *ngFor="let task of tasks;let i=index" class="{{task.completed === false ? 'table-success' : 'table-warning'}}">
-                  <td>{{i+1}}</td>
+                <tr *ngFor="let task of tasks;let i=index" class="{{task.completed === true ? 'table-success' : 'table-warning'}}">
+                  <td>{{i+1+(skip*5)}}</td>
                   <td>{{task.description}}</td>
                   <td>{{task.completed === false ? 'Pending' : 'Complete'}}</td>
                   <td ><button type="button" class="btn btn-link text-success" (click)="editTask(task._id)">Edit</button></td>
